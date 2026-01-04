@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { request } from 'express';
-import { create_blog_dto } from 'src/Blog_DTO/blog.dto';
+import { PrismaClient } from 'generated/prisma/client';
+
 
 @Injectable()
 export class BlogService {
+  blogModel = new PrismaClient();
+
   getBlogs() {
     return {
       msg: `all blogs will be fetched from ${request.originalUrl}`,
