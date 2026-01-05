@@ -10,7 +10,7 @@ export class BlogService {
   constructor(private prisma: PrismaService) {}
 
   // getting all blogs
-  
+
   getBlogs() {
     return {
       msg: `all blogs will be fetched from ${request.originalUrl}`,

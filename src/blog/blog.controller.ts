@@ -17,14 +17,17 @@ export class BlogController {
   }
 
   @Post('create')
-  craeteBlog(@Body() add: blog) {
-    const artical = this.blog_service.createBlogs({
+  async createBlog(@Body() add: blog) {
+    const article = await this.blog_service.createBlogs({
       title: add.title,
       description: add.description,
+      user: {
+        connect: {
+          userId: add.userId,
+        },
+      },
     });
 
-    return {
-      data: artical,
-    };
+    return { data: article };
   }
 }

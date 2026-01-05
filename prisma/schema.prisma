@@ -17,7 +17,7 @@ datasource db {
 // prisma/schema.prisma
 
 model User {
-  id       Int       @id @default(autoincrement())
+  userId   Int       @id @default(autoincrement())
   email    String    @unique
   name     String    @unique
   articles Article[]
@@ -27,7 +27,7 @@ model User {
 //: one to many relation
 
 model Article {
-  Id          String    @id @default(uuid())
+  BlogId      Int       @id @default(autoincrement())
   title       String    @unique
   description String
   published   Boolean?  @default(false)
@@ -35,5 +35,7 @@ model Article {
   updatedAt   DateTime? @updatedAt
 
   userId Int
-  user   User @relation(fields: [userId], references: [id])
+  // : fields ->  On of the current models schema that eventually going to store the refference models id
+  // : reference -> where it belongs
+  user   User @relation(fields: [userId], references: [userId])
 }
