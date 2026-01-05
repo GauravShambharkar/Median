@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { create_blog_dto } from 'src/Blog_DTO/blog.dto';
 import { BlogService } from './blog.service';
+import { blog } from 'src/Schemas/blog.schema';
 
 @Controller('blogs')
 export class BlogController {
@@ -17,10 +17,14 @@ export class BlogController {
   }
 
   @Post('create')
-  craeteBlog(@Body() blogdto: create_blog_dto) {
-    return this.blog_service.createBlogs({
-      title: blogdto.title,
-      description: blogdto.description,
+  craeteBlog(@Body() add: blog) {
+    const artical = this.blog_service.createBlogs({
+      title: add.title,
+      description: add.description,
     });
+
+    return {
+      data: artical,
+    };
   }
 }
