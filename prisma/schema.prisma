@@ -16,20 +16,24 @@ datasource db {
 
 // prisma/schema.prisma
 
-model Article {
-  id          String   @id @default(uuid())
-  title       String   @unique
-  description String?
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  todo        Todo[]
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String    @unique
+  articles Article[]
 }
 
-model Todo {
-  id          String   @id @default(uuid())
-  title       String   @unique
+//: user can have multiple articals so its:
+//: one to many relation
+
+model Article {
+  Id          String    @id @default(uuid())
+  title       String    @unique
   description String
-  article     Article? @relation(fields: [articleId], references: [id])
-  articleId   String?
+  published   Boolean?  @default(false)
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }

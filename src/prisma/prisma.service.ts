@@ -23,8 +23,7 @@ export class PrismaService
     this.pool = pool;
   }
 
-  // most important
-
+  //: most important
   async onModuleInit() {
     await this.$connect()
       .then(() => {
