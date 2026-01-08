@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { BlogService } from './blog.service';
-import { blog } from 'src/Schemas/blog.schema';
+import { CreateblogDto } from './Blog_DTO/createblog.dto';
+import { UpdateblogDto } from './Blog_DTO/updateblog.dto';
 
 @Controller('blogs')
 export class BlogController {
@@ -8,26 +17,29 @@ export class BlogController {
 
   @Get()
   getAllBlog() {
-    return this.blog_service.getBlogs();
+    return this.blog_service.findAll();
   }
 
   @Get(':id')
-  getBlog(@Param() id: string) {
-    return this.blog_service.getSingleBlog(id);
+  getBlog(@Param() id: number) {
+    return this.blog_service.findOne(id);
   }
 
   @Post('create')
-  async createBlog(@Body() add: blog) {
-    const article = await this.blog_service.createBlogs({
-      title: add.title,
-      description: add.description,
-      user: {
-        connect: {
-          userId: add.userId,
-        },
-      },
-    });
+  createBlog(@Body() body: CreateblogDto) {
+    const article = this.blog_service.createBlogs(body);
 
     return { data: article };
+  }
+
+  @Patch(':id')
+  // : patch used because we are upadting single data meaning small chunk of data from the table
+  updateBlog(@Param('id') id: number, @Body() dto: UpdateblogDto) {
+    return this.blog_service.update(id, dto);
+  }
+
+  @Delete(':id')
+  deleteBlog(@Param('id') id: number) {
+    return this.blog_service.deleteOne(id);
   }
 }
