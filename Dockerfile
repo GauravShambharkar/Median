@@ -3,9 +3,9 @@ FROM node
 
 WORKDIR /src
 
-COPY . .
-
 RUN npm install
+
+COPY . .
 
 ENV PORT=4000
 
